@@ -50,17 +50,14 @@ DIM SHARED Player AS PlayerStr
 
 CALL Main
 
-SUB AskTryAgain ()
-DIM KeyStroke AS STRING
-
+SUB AskTryAgain
  PRINT "  Try again (Y/N)?";
  DO
-  KeyStroke = UCASE$(INPUT$(1))
-  SELECT CASE KeyStroke
+  SELECT CASE UCASE$(INPUT$(1))
    CASE "N"
     Quit
    CASE "Y"
-    Player.LevelFinished = -1
+    Player.LevelFinished = TRUE
     Initialize
     DisplayStartScreen
     EXIT DO
@@ -68,7 +65,7 @@ DIM KeyStroke AS STRING
  LOOP
 END SUB
 
-SUB CreateSubmarines ()
+SUB CreateSubmarines
 DIM EnemyIndex
 
  FOR EnemyIndex = 0 TO Player.Level + 4
@@ -154,7 +151,7 @@ DIM x
  END IF
 END SUB
 
-SUB DisplayStartScreen ()
+SUB DisplayStartScreen
  COLOR 14
  PRINT
  PRINT "   Submarine,   By: Peter Swinkels, ***2021***"
@@ -167,7 +164,7 @@ SUB DisplayStartScreen ()
  DO: LOOP WHILE INKEY$ = ""
 END SUB
 
-SUB DisplayYouHaveLost ()
+SUB DisplayYouHaveLost
  CLS
  COLOR 4
  PRINT
@@ -176,7 +173,7 @@ SUB DisplayYouHaveLost ()
  PRINT "    ß    ßßß   ßßß   ß  ß ß  ß   ß   ßßßß  ßßßß  ßßß   ßßß    ß   ß"
 END SUB
 
-SUB DisplayYouHaveWon ()
+SUB DisplayYouHaveWon
  CLS
  COLOR 4
  PRINT
@@ -185,7 +182,7 @@ SUB DisplayYouHaveWon ()
  PRINT "    ß    ßßß   ßßß   ß  ß ß  ß   ß   ßßßß   ß   ß   ßßß  ß   ß ß"
 END SUB
 
-SUB DropBomb ()
+SUB DropBomb
  LOCATE Bomb.x, Bomb.y
  PRINT " ";
  IF Bomb.x = 22 THEN
@@ -198,7 +195,7 @@ SUB DropBomb ()
  END IF
 END SUB
 
-SUB GoToNextLevel ()
+SUB GoToNextLevel
 DIM EnemyIndex
 
  IF Player.Level = 4 THEN
@@ -214,10 +211,10 @@ DIM EnemyIndex
 
  Player.BombCount = 25
  Player.HitCount = 0
- Player.LevelFinished = -1
+ Player.LevelFinished = TRUE
 END SUB
 
-SUB Initialize ()
+SUB Initialize
  RANDOMIZE TIMER
  SCREEN 0
  WIDTH 80, 25
@@ -243,7 +240,7 @@ SUB Initialize ()
  LevelBackgroundColor(4) = &H8
 END SUB
 
-SUB Main ()
+SUB Main
 DIM KeyStroke AS STRING
 
  Initialize
@@ -284,11 +281,11 @@ DIM KeyStroke AS STRING
      IF DelayTickCount + TICKCOUNTSTEP < 2147483647 THEN DelayTickCount = DelayTickCount + TICKCOUNTSTEP
    END SELECT
   LOOP UNTIL Player.LevelFinished
-  Player.LevelFinished = 0
+  Player.LevelFinished = FALSE
  LOOP
 END SUB
 
-SUB MoveSubmarines ()
+SUB MoveSubmarines
 DIM EnemyIndex
 
  LOCATE 2, Player.x
@@ -328,7 +325,7 @@ DIM EnemyIndex
  Delay DelayTickCount
 END SUB
 
-SUB Quit ()
+SUB Quit
  PALETTE
  SCREEN 0
  WIDTH 80, 25
