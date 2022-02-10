@@ -43,8 +43,8 @@ DECLARE SUB MoveSubmarines ()
 DECLARE SUB Quit ()
 
 DIM SHARED Bomb AS BombStr
-DIM SHARED Enemy(0 TO 8) AS EnemyStr
 DIM SHARED DelayTickCount AS DOUBLE
+DIM SHARED Enemy(0 TO 8) AS EnemyStr
 DIM SHARED LevelBackgroundColor(0 TO 4)
 DIM SHARED Player AS PlayerStr
 
@@ -72,10 +72,6 @@ DIM EnemyIndex
   Enemy(EnemyIndex).x = INT(RND * 20) + 3
   Enemy(EnemyIndex).y = INT(RND * 79) + 1
   IF Enemy(EnemyIndex).y + LEN(SUBMARINE) > 79 THEN Enemy(EnemyIndex).y = 79 - LEN(SUBMARINE)
-  
-  COLOR 4
-  LOCATE Enemy(EnemyIndex).x, Enemy(EnemyIndex).y
-  PRINT SUBMARINE$;
   Enemy(EnemyIndex).Disabled = FALSE
  NEXT EnemyIndex
 END SUB
