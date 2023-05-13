@@ -31,7 +31,7 @@ END TYPE
 DECLARE SUB AskTryAgain ()
 DECLARE SUB CreateSubmarines ()
 DECLARE SUB Delay (DelayTickCount AS DOUBLE)
-DECLARE SUB DisableEnemy (Enemy)
+DECLARE SUB DisableEnemy (Enemy AS INTEGER)
 DECLARE SUB DisplayStartScreen ()
 DECLARE SUB DisplayStatus ()
 DECLARE SUB DisplayYouHaveLost ()
@@ -46,12 +46,12 @@ DECLARE SUB Quit ()
 DIM SHARED Bomb AS BombStr
 DIM SHARED DelayTickCount AS DOUBLE
 DIM SHARED Enemy(0 TO 8) AS EnemyStr
-DIM SHARED LevelBackgroundColor(0 TO 4)
+DIM SHARED LevelBackgroundColor(0 TO 4) AS INTEGER
 DIM SHARED Player AS PlayerStr
 
 CALL Main
 
-SUB AskTryAgain
+SUB AskTryAgain ()
  PRINT "  Try again (Y/N)?";
  DO
   SELECT CASE UCASE$(INPUT$(1))
@@ -66,8 +66,8 @@ SUB AskTryAgain
  LOOP
 END SUB
 
-SUB CreateSubmarines
-DIM EnemyIndex
+SUB CreateSubmarines ()
+DIM EnemyIndex AS INTEGER
 
  FOR EnemyIndex = LBOUND(Enemy) TO UBOUND(Enemy)
   Enemy(EnemyIndex).x = INT(RND * 20) + 3
@@ -84,11 +84,11 @@ DIM Tick AS DOUBLE
  NEXT Tick
 END SUB
 
-SUB DisableEnemy (EnemyIndex)
+SUB DisableEnemy (EnemyIndex AS INTEGER)
 DIM Explosion AS STRING
-DIM Flash
+DIM Flash AS INTEGER
 DIM KeyStroke AS STRING
-DIM x
+DIM x AS INTEGER
 
  IF NOT Enemy(EnemyIndex).Disabled THEN
   SELECT CASE Bomb.y
@@ -147,7 +147,7 @@ DIM x
  END IF
 END SUB
 
-SUB DisplayStartScreen
+SUB DisplayStartScreen ()
  COLOR 14
  PRINT
  PRINT "   Submarine,   By: Peter Swinkels, ***2021***"
@@ -160,13 +160,13 @@ SUB DisplayStartScreen
  DO: LOOP WHILE INKEY$ = ""
 END SUB
 
-SUB DisplayStatus
+SUB DisplayStatus ()
  COLOR 2
  LOCATE 1, 1
  PRINT USING "Score: ###   Bombs: ####    Level: #"; Player.Score; Player.BombCount; Player.Level + 1
 END SUB
 
-SUB DisplayYouHaveLost
+SUB DisplayYouHaveLost ()
  CLS
  COLOR 4
  PRINT
@@ -175,7 +175,7 @@ SUB DisplayYouHaveLost
  PRINT "    ß    ßßß   ßßß   ß  ß ß  ß   ß   ßßßß  ßßßß  ßßß   ßßß    ß   ß"
 END SUB
 
-SUB DisplayYouHaveWon
+SUB DisplayYouHaveWon ()
  CLS
  COLOR 4
  PRINT
@@ -184,7 +184,7 @@ SUB DisplayYouHaveWon
  PRINT "    ß    ßßß   ßßß   ß  ß ß  ß   ß   ßßßß   ß   ß   ßßß  ß   ß ß"
 END SUB
 
-SUB DropBomb
+SUB DropBomb ()
  LOCATE Bomb.x, Bomb.y
  PRINT " ";
  IF Bomb.x = 22 THEN
@@ -197,8 +197,8 @@ SUB DropBomb
  END IF
 END SUB
 
-SUB GoToNextLevel
-DIM EnemyIndex
+SUB GoToNextLevel ()
+DIM EnemyIndex AS INTEGER
 
  IF Player.Level = 4 THEN
   DisplayYouHaveWon
@@ -216,7 +216,7 @@ DIM EnemyIndex
  Player.LevelFinished = TRUE
 END SUB
 
-SUB Initialize
+SUB Initialize ()
  RANDOMIZE TIMER
  PALETTE
  SCREEN 0
@@ -243,7 +243,7 @@ SUB Initialize
  LevelBackgroundColor(4) = &H8
 END SUB
 
-SUB Main
+SUB Main ()
 DIM KeyStroke AS STRING
 
  Initialize
@@ -286,8 +286,8 @@ DIM KeyStroke AS STRING
  LOOP
 END SUB
 
-SUB MoveSubmarines
-DIM EnemyIndex
+SUB MoveSubmarines ()
+DIM EnemyIndex AS INTEGER
 
  LOCATE 2, Player.x
  IF Player.x + LEN(SUBMARINE$) > 79 THEN
@@ -326,7 +326,7 @@ DIM EnemyIndex
  Delay DelayTickCount
 END SUB
 
-SUB Quit
+SUB Quit ()
  PALETTE
  SCREEN 0
  WIDTH 80, 25
