@@ -45,7 +45,7 @@ DECLARE SUB Quit ()
 
 DIM SHARED Bomb AS BombStr
 DIM SHARED DelayTickCount AS DOUBLE
-DIM SHARED Enemy(0 TO 8) AS EnemyStr
+DIM SHARED Enemy() AS EnemyStr
 DIM SHARED LevelBackgroundColor(0 TO 4) AS INTEGER
 DIM SHARED Player AS PlayerStr
 
@@ -68,6 +68,8 @@ END SUB
 
 SUB CreateSubmarines ()
 DIM EnemyIndex AS INTEGER
+
+ REDIM Enemy(0 TO Player.Level + 4) AS EnemyStr
 
  FOR EnemyIndex = LBOUND(Enemy) TO UBOUND(Enemy)
   Enemy(EnemyIndex).x = INT(RND * 20) + 3
@@ -218,8 +220,8 @@ END SUB
 
 SUB Initialize ()
  RANDOMIZE TIMER
- PALETTE
  SCREEN 0
+ PALETTE
  WIDTH 80, 25
  COLOR 7, 0
  CLS
@@ -303,7 +305,7 @@ DIM EnemyIndex AS INTEGER
   IF Bomb.Dropped THEN
    IF Bomb.x = Enemy(EnemyIndex).x AND Bomb.y >= Enemy(EnemyIndex).y AND Bomb.y <= Enemy(EnemyIndex).y + 5 THEN
     DisableEnemy EnemyIndex
-    IF Player.HitCount = Player.Level + 5 THEN
+    IF Player.HitCount = UBOUND(Enemy) + 1 THEN
      Player.HitCount = 0
      GoToNextLevel
      EXIT SUB
@@ -327,8 +329,8 @@ DIM EnemyIndex AS INTEGER
 END SUB
 
 SUB Quit ()
- PALETTE
  SCREEN 0
+ PALETTE
  WIDTH 80, 25
  COLOR 7, 0
  CLS
