@@ -123,7 +123,8 @@ DIM x AS INTEGER
   SLEEP 1
   KeyStroke = INKEY$
 
-  LOCATE Bomb.x, Bomb.y - 3
+  LOCATE Bomb.x
+  IF Bomb.y <= 3 THEN LOCATE , 1 ELSE LOCATE , Bomb.y - 3
   PRINT SPC(LEN(Explosion));
 
   Player.Score = Player.Score + Enemy(EnemyIndex).x
@@ -305,11 +306,6 @@ DIM EnemyIndex AS INTEGER
   IF Bomb.Dropped THEN
    IF Bomb.x = Enemy(EnemyIndex).x AND Bomb.y >= Enemy(EnemyIndex).y AND Bomb.y <= Enemy(EnemyIndex).y + 5 THEN
     DisableEnemy EnemyIndex
-    IF Player.HitCount = UBOUND(Enemy) + 1 THEN
-     Player.HitCount = 0
-     GoToNextLevel
-     EXIT SUB
-    END IF
    END IF
   END IF
   IF NOT Enemy(EnemyIndex).Disabled THEN
@@ -324,6 +320,11 @@ DIM EnemyIndex AS INTEGER
    END IF
   END IF
  NEXT EnemyIndex
+
+ IF Player.HitCount = UBOUND(Enemy) + 1 THEN
+  Player.HitCount = 0
+  GoToNextLevel
+ END IF
 
  Delay DelayTickCount
 END SUB
